@@ -1,0 +1,13 @@
+{
+    "mongoConnection": "mongodb://localhost:27017/luminousTestDb",
+    "dataConnection": {
+    	"driver": "mongo",
+    	"dbname": "luminousTestDb"
+    },
+    "modules": {
+        "metadata": "luminous-mongo-metadata"
+    },
+    "metadata": {
+        "typeCollection": "/type"
+    }
+}

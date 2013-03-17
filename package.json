@@ -1,0 +1,24 @@
+{
+  "name": "luminous-mde-model-repository",
+  "version": "0.0.0",
+  "description": "=======================",
+  "main": "lib/repositoryFactory.js",
+  "dependencies": {
+    "model": "~0.0.35",
+    "underscore": "~1.4.4",
+    "async": "~0.2.6",
+    "luminous-base": "~0.0.0",
+    "luminous-server-config": "~0.0.0",
+    "mongodb": "~1.2.14"
+  },
+  "devDependencies": {
+    "jasmine-node": "~1.3.0"
+  },
+  "scripts": {
+    "test": "jasmine-node --forceexit specs/"
+  },
+  "repository": "",
+  "author": "",
+  "license": "BSD",
+  "readmeFilename": "README.md"
+}
