@@ -1,14 +1,14 @@
 {
   "name": "luminous-mde-model-repository",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "=======================",
   "main": "lib/repositoryFactory.js",
   "dependencies": {
     "model": "~0.0.35",
     "underscore": "~1.4.4",
     "async": "~0.2.6",
-    "luminous-base": "~0.0.0",
-    "luminous-server-config": "~0.0.0",
+    "luminous-base": "~0.0.2",
+    "luminous-server-config": "~0.0.2",
     "mongodb": "~1.2.14"
   },
   "devDependencies": {
