@@ -1,15 +1,15 @@
 {
   "name": "luminous-mde-model-repository",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "=======================",
   "main": "lib/repositoryFactory.js",
   "dependencies": {
-    "model": "~0.0.35",
-    "underscore": "~1.4.4",
     "async": "~0.2.6",
+    "futureeventemitter": "~0.9.1",
     "luminous-base": "~0.0.2",
     "luminous-server-config": "~0.0.2",
-    "mongodb": "~1.2.14"
+    "model": "~0.0.35",
+    "underscore": "~1.4.4"
   },
   "devDependencies": {
     "jasmine-node": "~1.3.0"
@@ -17,8 +17,12 @@
   "scripts": {
     "test": "jasmine-node --forceexit specs/"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mvantil/luminous-mde-model-repository"
+  },
   "author": "",
   "license": "BSD",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "gitHead": "36c42cc7a5e17ea726d10b3732896f0f48cfa936"
 }

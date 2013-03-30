@@ -1,14 +1,92 @@
 var RepositoryFactory = require('../lib/repositoryFactory.js'),
 	Luminous = require('luminous-base'),
 	Config = Luminous.Config,
-	mongodb = require('mongodb'),
-	MongoClient = mongodb.MongoClient,
 	async = require('async');
 
 
 describe("Luminous Mde Model Repository suite", function() {
-	beforeEach(function(done) {
-		dropDatabase(done);
+	it("must do something", function(done) {
+		var repositoryFactory = new RepositoryFactory();
+		repositoryFactory.get('/todo', function(repository) {
+			repository.create(function(err, item) {
+				expect(err).toBeFalsy();
+				expect(item.title).toBeNull();
+
+				done();
+			})
+		});
+	});
+
+	it("must throw a meaningful error when saving with an invalid object", function(done) {
+		var repositoryFactory = new RepositoryFactory();
+		repositoryFactory.get('/todo', function(repository) {
+			repository.save({
+				title: 'Test'
+			}, function(err, item) {
+				expect(err).toBeTruthy();
+				expect(err.message).toBe('Failed to retrieve item /todo: undefined');
+				done();
+			})
+		});
+	});
+
+	it("must save data that has been modified after getting it from repository", function(done) {
+		var repositoryFactory = new RepositoryFactory();
+		repositoryFactory.get('/todo', function(repository) {
+			async.waterfall([function(callback) {
+				repository.create(function(err, item) {
+					expect(err ? err.message : null).toBeFalsy();
+					expect(item).toBeTruthy();
+					callback(null, item);
+				});
+			}, function(item, callback) {
+				item.title = 'Repository Test';
+
+				repository.save(item, function(err, item) {
+					expect(err ? err.message : null).toBeFalsy();
+					expect(item).toBeTruthy();
+					callback(null, item);
+				});
+			}, function(savedItem, callback) {
+				repository.find({id: savedItem.id}, function(err, results) {
+					expect(results.length).toBe(1);
+					expect(results[0].title).toBe('Repository Test');
+
+					callback();
+				});
+			}], done);
+		});
+	});
+
+	it("must save plain objects that match by id", function(done) {
+		var repositoryFactory = new RepositoryFactory();
+		repositoryFactory.get('/todo', function(repository) {
+			async.waterfall([function(callback) {
+				repository.create(function(err, item) {
+					expect(err ? err.message : null).toBeFalsy();
+					expect(item).toBeTruthy();
+					callback(null, item);
+				});
+			}, function(item, callback) {
+				item = {
+					id: item.id,
+					title: 'Plain Test'
+				};
+
+				repository.save(item, function(err, item) {
+					expect(err ? err.message : null).toBeFalsy();
+					expect(item).toBeTruthy();
+					callback(null, item);
+				});
+			}, function(savedItem, callback) {
+				repository.find({id: savedItem.id}, function(err, results) {
+					expect(results.length).toBe(1);
+					expect(results[0].title).toBe('Plain Test');
+
+					callback();
+				});
+			}], done);
+		});
 	});
 
 	it("must be able to save and retrieve enum values to database", function(done) {
@@ -109,19 +187,3 @@ describe("Luminous Mde Model Repository suite", function() {
 		}], done);
 	});
 });
-
-function dropDatabase(callback) {
-	var config = new Config();
-	config.load(function(err, data) {
-		if (err) throw err;
-		MongoClient.connect(data.mongoConnection, function(err, db) {
-			if (err) throw err;
-			db.dropDatabase(function(err) {
-				callback();
-				db.logout(function() {
-					db.close();
-				});
-			});
-		});
-	});
-}
