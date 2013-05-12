@@ -1,6 +1,6 @@
 {
   "name": "luminous-mde-model-repository",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "=======================",
   "main": "lib/repositoryFactory.js",
   "dependencies": {
@@ -9,7 +9,8 @@
     "luminous-base": "~0.0.2",
     "luminous-server-config": "~0.0.2",
     "model": "~0.0.35",
-    "underscore": "~1.4.4"
+    "underscore": "~1.4.4",
+    "handlebars": "*"
   },
   "devDependencies": {
     "jasmine-node": "~1.3.0"
