@@ -8,6 +8,16 @@ function Metadata() {
             }]
         });
     };
+
+    this.list = function(callback) {
+    	callback(null, [{
+            _id: '/todo',
+            fields: [{
+                field: 'title',
+                type: '/string'
+            }]
+		}]);
+    };
 }
 
-module.exports = Metadata;
+module.exports = new Metadata();

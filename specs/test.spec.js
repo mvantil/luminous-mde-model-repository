@@ -1,13 +1,11 @@
-var RepositoryFactory = require('../lib/repositoryFactory.js'),
-	Luminous = require('luminous-base'),
-	Config = Luminous.Config,
-	async = require('async');
+var async = require('async'),
+    Luminous = require('Luminous');
+var luminous = new Luminous();
 
 
 describe("Luminous Mde Model Repository suite", function() {
 	it("must do something", function(done) {
-		var repositoryFactory = new RepositoryFactory();
-		repositoryFactory.get('/todo', function(repository) {
+		luminous.repositoryFactory.get('/todo', function(repository) {
 			repository.create(function(err, item) {
 				expect(err).toBeFalsy();
 				expect(item.title).toBeNull();
@@ -17,22 +15,8 @@ describe("Luminous Mde Model Repository suite", function() {
 		});
 	});
 
-	it("must throw a meaningful error when saving with an invalid object", function(done) {
-		var repositoryFactory = new RepositoryFactory();
-		repositoryFactory.get('/todo', function(repository) {
-			repository.save({
-				title: 'Test'
-			}, function(err, item) {
-				expect(err).toBeTruthy();
-				expect(err.message).toBe('Failed to retrieve item /todo: undefined');
-				done();
-			})
-		});
-	});
-
 	it("must save data that has been modified after getting it from repository", function(done) {
-		var repositoryFactory = new RepositoryFactory();
-		repositoryFactory.get('/todo', function(repository) {
+		luminous.repositoryFactory.get('/todo', function(repository) {
 			async.waterfall([function(callback) {
 				repository.create(function(err, item) {
 					expect(err ? err.message : null).toBeFalsy();
@@ -59,8 +43,7 @@ describe("Luminous Mde Model Repository suite", function() {
 	});
 
 	it("must save plain objects that match by id", function(done) {
-		var repositoryFactory = new RepositoryFactory();
-		repositoryFactory.get('/todo', function(repository) {
+		luminous.repositoryFactory.get('/todo', function(repository) {
 			async.waterfall([function(callback) {
 				repository.create(function(err, item) {
 					expect(err ? err.message : null).toBeFalsy();
@@ -90,9 +73,8 @@ describe("Luminous Mde Model Repository suite", function() {
 	});
 
 	it("must be able to save and retrieve enum values to database", function(done) {
-		var repositoryFactory = new RepositoryFactory();
 		async.waterfall([function(callback) {
-			repositoryFactory.get('/enum/testType', function(repository) {
+			luminous.repositoryFactory.get('/enum/testType', function(repository) {
 				callback(null, repository);
 			});
 		}, function(repository, callback) {
@@ -110,9 +92,8 @@ describe("Luminous Mde Model Repository suite", function() {
 	});
 
 	it("must return all values when no parameters are passed to find", function(done) {
-		var repositoryFactory = new RepositoryFactory();
 		async.waterfall([function(callback) {
-			repositoryFactory.get('/enum/testType', function(repository) {
+			luminous.repositoryFactory.get('/enum/testType', function(repository) {
 				callback(null, repository);
 			});
 		}, function(repository, callback) {
@@ -140,12 +121,11 @@ describe("Luminous Mde Model Repository suite", function() {
 			badValue: 'First Value'
 		}];
 
-		var repositoryFactory = new RepositoryFactory();
 		var repositories = {};
 		async.series([function(callback) {
 			//Initialize repositories
 			async.each(testData, function(item, callback) {
-				repositoryFactory.get(item.type, function(repository) {
+				luminous.repositoryFactory.get(item.type, function(repository) {
 					repositories[item.type] = repository;
 					callback(null);
 				});
